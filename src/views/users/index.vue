@@ -13,7 +13,7 @@
     </el-card>
     <el-card style="margin-top:20px"><template #header>角色管理</template>
       <el-table :data="roles" stripe>
-        <el-table-column prop="roleCode" label="编码" /><el-table-column prop="roleName" label="名称" /><el-table-column prop="permissions" label="权限" />
+        <el-table-column prop="roleCode" label="编码" /><el-table-column prop="roleName" label="名称" /><el-table-column label="权限"><template #default="{row}">{{ formatPermissions(row.permissions) }}</template></el-table-column>
       </el-table>
     </el-card>
     <el-dialog v-model="visible" :title="isEdit?'编辑':'新增'" width="500px"><el-form :model="form" label-width="80px">
@@ -29,7 +29,21 @@ import{ref,reactive,onMounted}from'vue';import{listUsers,createUser,updateUser,u
 import{ElMessage,ElMessageBox}from'element-plus'
 const users=ref([]),roles=ref([]),visible=ref(false),isEdit=ref(false)
 const form=reactive({username:'',realName:'',password:'',roleCode:'AUDITOR'});let editId=''
-onMounted(async()=>{try{users.value=await listUsers()}catch(_){};try{roles.value=await listRoles()}catch(_){}})
+// 权限英文code → 中文标签
+const PERM_MAP = {
+  'user:read':'用户查看','user:write':'用户编辑','user:disable':'用户启停',
+  'pet:read':'宠物查看','pet:write':'宠物编辑',
+  'knowledge:read':'知识查看','knowledge:write':'知识编辑','knowledge:review':'知识审核','knowledge:publish':'知识发布',
+  'redeem:read':'兑换查看','redeem:create':'兑换生成','redeem:export':'兑换导出',
+  'system:admin:read':'管理员查看','system:admin:write':'管理员编辑',
+  'system:role:read':'角色查看',
+  'system:audit:read':'审计查看',
+  'dashboard:read':'看板查看',
+}
+function formatPermissions(p){
+  if (!p) return '-'
+  try { const arr = typeof p === 'string' ? JSON.parse(p) : p; return arr.map(k => PERM_MAP[k] || k).join('、') } catch(_) { return p }
+}
 function openAdd(){isEdit.value=false;Object.assign(form,{username:'',realName:'',password:'',roleCode:'AUDITOR'});visible.value=true}
 function openEdit(row){isEdit.value=true;editId=row.adminId;Object.assign(form,{username:row.username,realName:row.realName||'',roleCode:row.roleCode});visible.value=true}
 async function onSave(){try{if(isEdit.value)await updateUser(editId,{realName:form.realName,roleCode:form.roleCode});else await createUser({username:form.username,realName:form.realName,password:form.password,roleCode:form.roleCode});ElMessage.success('OK');visible.value=false;users.value=await listUsers()}catch(_){}}
