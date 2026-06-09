@@ -44,9 +44,10 @@ function formatPermissions(p){
   if (!p) return '-'
   try { const arr = typeof p === 'string' ? JSON.parse(p) : p; return arr.map(k => PERM_MAP[k] || k).join('、') } catch(_) { return p }
 }
+async function loadData(){try{users.value=await listUsers()}catch(_){};try{roles.value=await listRoles()}catch(_){}}
 function openAdd(){isEdit.value=false;Object.assign(form,{username:'',realName:'',password:'',roleCode:'AUDITOR'});visible.value=true}
 function openEdit(row){isEdit.value=true;editId=row.adminId;Object.assign(form,{username:row.username,realName:row.realName||'',roleCode:row.roleCode});visible.value=true}
-async function onSave(){try{if(isEdit.value)await updateUser(editId,{realName:form.realName,roleCode:form.roleCode});else await createUser({username:form.username,realName:form.realName,password:form.password,roleCode:form.roleCode});ElMessage.success('OK');visible.value=false;users.value=await listUsers()}catch(_){}}
-async function toggleStatus(row){const a=row.status==='ACTIVE'?'DISABLED':'ACTIVE';try{await ElMessageBox.confirm('确认'+(a==='ACTIVE'?'启用':'禁用')+'?');await updateStatus(row.adminId,{status:a});ElMessage.success('OK');users.value=await listUsers()}catch(_){}}
+async function onSave(){try{if(isEdit.value)await updateUser(editId,{realName:form.realName,roleCode:form.roleCode});else await createUser({username:form.username,realName:form.realName,password:form.password,roleCode:form.roleCode});ElMessage.success('OK');visible.value=false;await loadData()}catch(_){}}
+async function toggleStatus(row){const a=row.status==='ACTIVE'?'DISABLED':'ACTIVE';try{await ElMessageBox.confirm('确认'+(a==='ACTIVE'?'启用':'禁用')+'?');await updateStatus(row.adminId,{status:a});ElMessage.success('OK');await loadData()}catch(_){}}
 </script>
 <style scoped>.card-head{display:flex;justify-content:space-between;align-items:center}</style>
