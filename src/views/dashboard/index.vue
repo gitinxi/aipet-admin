@@ -19,11 +19,43 @@ const cards = ref([{label:'今日注册',value:0},{label:'今日活跃',value:0}
 const redeemCards = ref([{label:'已生成',value:0},{label:'已激活',value:0},{label:'已过期',value:0},{label:'激活率',value:'0%'}])
 const chartRef = ref(null)
 onMounted(async () => {
-  try { const data = await getRecentStats(); if (data) { if (data.todayUsers!=null) cards.value[0].value=data.todayUsers; if (data.todayActive!=null) cards.value[1].value=data.todayActive; if (data.totalUsers!=null) cards.value[2].value=data.totalUsers; if (data.payingMembers!=null) cards.value[3].value=data.payingMembers } } catch(_){}
-  if (chartRef.value) {
-    const chart = echarts.init(chartRef.value)
-    chart.setOption({ tooltip:{trigger:'axis'}, legend:{data:['注册','问诊','问答']}, xAxis:{type:'category',data:['6/1','6/2','6/3','6/4','6/5','6/6','6/7']}, yAxis:{type:'value'}, series:[{name:'注册',type:'line',data:[5,8,12,10,15,8,12],smooth:true},{name:'问诊',type:'line',data:[3,6,8,7,12,9,11],smooth:true},{name:'问答',type:'line',data:[8,12,15,10,18,14,16],smooth:true}] })
-  }
+  try {
+    const data = await getRecentStats()
+    // 后端返回 List<DailyStats>，取最后一条（最新日期）的最新累计值
+    if (Array.isArray(data) && data.length > 0) {
+      const latest = data[data.length - 1]
+      cards.value[0].value = latest.newUsers || 0
+      cards.value[1].value = latest.activeUsers || 0
+      cards.value[2].value = latest.cumulativeUsers || 0
+      cards.value[3].value = latest.activeMembers || 0
+      // 兑换码概览
+      redeemCards.value[0].value = latest.redeemActivated || 0
+      redeemCards.value[1].value = latest.redeemActivated || 0
+      redeemCards.value[2].value = latest.redeemExpired || 0
+      redeemCards.value[3].value = latest.redeemActivated && latest.redeemExpired != null
+        ? Math.round(latest.redeemActivated / (latest.redeemActivated + latest.redeemExpired || 1) * 100) + '%'
+        : '0%'
+      // 用真实数据绘制 7 日趋势图
+      if (chartRef.value) {
+        const chart = echarts.init(chartRef.value)
+        const dates = data.map(d => d.statDate).filter(Boolean)
+        const newUserArr = data.map(d => d.newUsers || 0)
+        const consultArr = data.map(d => d.consultTotal || 0)
+        const qaArr = data.map(d => d.qaTotal || 0)
+        chart.setOption({
+          tooltip: { trigger: 'axis' },
+          legend: { data: ['注册', '问诊', '问答'] },
+          xAxis: { type: 'category', data: dates },
+          yAxis: { type: 'value' },
+          series: [
+            { name: '注册', type: 'line', data: newUserArr, smooth: true },
+            { name: '问诊', type: 'line', data: consultArr, smooth: true },
+            { name: '问答', type: 'line', data: qaArr, smooth: true }
+          ]
+        })
+      }
+    }
+  } catch (_) {}
 })
 </script>
 <style scoped>

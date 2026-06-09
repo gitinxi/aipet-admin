@@ -12,16 +12,16 @@
     <el-dialog v-model="genVisible" title="生成兑换码" width="400px"><el-form :model="genForm" label-width="80px">
       <el-form-item label="套餐"><el-select v-model="genForm.planId"><el-option v-for="p in plans" :key="p.planId" :label="p.planName" :value="p.planId" /></el-select></el-form-item>
       <el-form-item label="数量"><el-input-number v-model="genForm.count" :min="1" :max="100" /></el-form-item>
-      <el-form-item label="有效期(天)"><el-input-number v-model="genForm.expireDays" :min="1" :max="365" /></el-form-item>
+      <el-form-item label="有效期(天)"><el-input-number v-model="genForm.planDays" :min="1" :max="365" /></el-form-item>
     </el-form><template #footer><el-button @click="genVisible=false">取消</el-button><el-button type="primary" @click="onGenerate">生成</el-button></template></el-dialog>
   </div>
 </template>
 <script setup>
-import{ref,reactive,onMounted}from'vue';import{listBatches,generateCodes}from'@/api/redeem';import{listPlans}from'@/api/members';import{ElMessage}from'element-plus'
+import{ref,reactive,onMounted}from'vue';import{listBatches,getBatch,generateCodes}from'@/api/redeem';import{listPlans}from'@/api/members';import{ElMessage}from'element-plus'
 const batches=ref([]),plans=ref([]),genVisible=ref(false)
-const genForm=reactive({planId:'',count:100,expireDays:30})
+const genForm=reactive({planId:'',count:100,planDays:30})
 onMounted(async()=>{try{batches.value=await listBatches()}catch(_){};try{plans.value=await listPlans()}catch(_){}})
-function viewBatch(id){ElMessage.info('批次详情开发中')}
-async function onGenerate(){try{await generateCodes({planId:genForm.planId,count:genForm.count,expireDays:genForm.expireDays});ElMessage.success('生成成功');genVisible.value=false;batches.value=await listBatches()}catch(_){}}
+async function viewBatch(id){try{const batch=await getBatch(id);ElMessage.info('批次'+batch.batchId+' 共'+batch.totalCount+'个码，已激活'+batch.activatedCount)}catch(_){}}
+async function onGenerate(){try{await generateCodes({planId:genForm.planId,count:genForm.count,planDays:genForm.planDays});ElMessage.success('生成成功');genVisible.value=false;batches.value=await listBatches()}catch(_){}}
 </script>
 <style scoped>.card-head{display:flex;justify-content:space-between;align-items:center}</style>

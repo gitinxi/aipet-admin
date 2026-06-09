@@ -5,7 +5,7 @@
       <el-table :data="plans" stripe>
         <el-table-column prop="planId" label="套餐ID" /><el-table-column prop="planName" label="名称" />
         <el-table-column prop="priceYuan" label="价格" /><el-table-column prop="durationDays" label="天数" />
-        <el-table-column prop="enabled" label="启用"><template #default="{row}"><el-tag :type="row.enabled?'success':'info'">{{row.enabled?'是':'否'}}</el-tag></template></el-table-column>
+        <el-table-column prop="enabled" label="启用"><template #default="{row}"><el-tag :type="row.enabled ? 'success' : 'info'">{{row.enabled ? '是' : '否'}}</el-tag></template></el-table-column>
         <el-table-column label="操作"><template #default="{row}"><el-button size="small" @click="openEdit(row)">编辑</el-button></template></el-table-column>
       </el-table>
     </el-card>
