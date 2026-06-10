@@ -13,7 +13,7 @@ const routes = [
     ]
   }
 ]
-const router = createRouter({ history: createWebHistory(), routes })
+const router = createRouter({ history: createWebHistory('/admin/'), routes })
 router.beforeEach((to, from, next) => {
   document.title = (to.meta.title || 'PawPal管理端')
   const token = localStorage.getItem('admin_token')
