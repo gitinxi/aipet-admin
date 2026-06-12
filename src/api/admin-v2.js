@@ -40,5 +40,5 @@ export const auditProvider = (providerId, data) => request('/admin/o2o/providers
 export const adminBookings = (params) => request('/admin/o2o/bookings', 'GET', params)
 
 // 举报管理
-export const adminReports = (params) => request('/admin/interaction/reports', 'GET', params)
-export const handleReport = (reportId, data) => request('/admin/interaction/reports/' + reportId + '/handle', 'POST', data)
+export const adminReports = (params) => request('/admin/community/reports', 'GET', params)
+export const handleReport = (reportId, data) => request('/admin/community/reports/' + reportId + '/handle', 'POST', data)

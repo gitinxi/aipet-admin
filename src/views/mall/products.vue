@@ -5,17 +5,17 @@
       <el-table :data="spus" stripe>
         <el-table-column prop="spuId" label="商品ID" width="150" />
         <el-table-column prop="name" label="名称" />
-        <el-table-column prop="price" label="价格">
-          <template #default="{row}">¥{{ (row.price / 100).toFixed(2) }}</template>
+        <el-table-column label="SKU最低价" width="100">
+          <template #default="{row}">{{ row.minPrice != null ? '¥' + (row.minPrice / 100).toFixed(2) : '未定价' }}</template>
         </el-table-column>
         <el-table-column prop="sellCount" label="销量" width="80" />
-        <el-table-column prop="enabled" label="状态" width="80">
-          <template #default="{row}"><el-tag :type="row.enabled ? 'success' : 'info'">{{ row.enabled ? '上架' : '下架' }}</el-tag></template>
+        <el-table-column label="状态" width="80">
+          <template #default="{row}"><el-tag :type="row.status === 'ON_SALE' ? 'success' : 'info'">{{ row.status === 'ON_SALE' ? '上架' : '下架' }}</el-tag></template>
         </el-table-column>
         <el-table-column label="操作" width="200">
           <template #default="{row}">
             <el-button size="small" @click="openEdit(row)">编辑</el-button>
-            <el-button size="small" :type="row.enabled ? 'warning' : 'success'" @click="toggleStatus(row)">{{ row.enabled ? '下架' : '上架' }}</el-button>
+            <el-button size="small" :type="row.status === 'ON_SALE' ? 'warning' : 'success'" @click="toggleStatus(row)">{{ row.status === 'ON_SALE' ? '下架' : '上架' }}</el-button>
           </template>
         </el-table-column>
       </el-table>
