@@ -10,6 +10,20 @@
         <el-menu-item index="/payments"><el-icon><Money /></el-icon><span>退款审核</span></el-menu-item>
         <el-menu-item index="/audits"><el-icon><Document /></el-icon><span>审计安全</span></el-menu-item>
         <el-menu-item index="/buttons"><el-icon><Operation /></el-icon><span>按钮配置</span></el-menu-item>
+        <el-sub-menu index="/mall">
+          <template #title><el-icon><ShoppingCart /></el-icon><span>宠物商城</span></template>
+          <el-menu-item index="/mall/products">商品管理</el-menu-item>
+          <el-menu-item index="/mall/orders">订单管理</el-menu-item>
+          <el-menu-item index="/mall/coupons">优惠券管理</el-menu-item>
+          <el-menu-item index="/mall/brands">品牌管理</el-menu-item>
+        </el-sub-menu>
+        <el-sub-menu index="/community">
+          <template #title><el-icon><ChatDotRound /></el-icon><span>宠友社区</span></template>
+          <el-menu-item index="/community/posts">内容审核</el-menu-item>
+          <el-menu-item index="/community/circles">圈子管理</el-menu-item>
+          <el-menu-item index="/community/adoptions">领养管理</el-menu-item>
+        </el-sub-menu>
+        <el-menu-item index="/o2o/providers"><el-icon><Service /></el-icon><span>服务商管理</span></el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
