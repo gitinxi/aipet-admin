@@ -20,6 +20,8 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-pagination v-if="total > 0" :total="total" :page-size="query.pageSize || 20" :current-page="query.page || 1"
+        layout="total, prev, pager, next" @current-change="(p) => { query.page = p; load() }" style="margin-top: 16px; text-align: right" />
     </el-card>
   </div>
 </template>
@@ -29,8 +31,14 @@ import { ref, reactive, onMounted } from 'vue'
 import { auditPosts, auditPost } from '@/api/admin-v2'
 import { ElMessage } from 'element-plus'
 
-const posts = ref([]), query = reactive({ status: '' })
+const posts = ref([]), total = ref(0), query = reactive({ status: '', page: 1, pageSize: 20 })
 onMounted(load)
-async function load() { try { posts.value = await auditPosts(query) || [] } catch (_) {} }
+async function load() {
+  try {
+    const res = await auditPosts(query)
+    posts.value = res?.list || []
+    total.value = res?.total || 0
+  } catch (_) {}
+}
 async function audit(postId, status) { try { await auditPost(postId, { status }); ElMessage.success('OK'); load() } catch (_) {} }
 </script>

@@ -23,8 +23,8 @@ import { ref, onMounted } from 'vue'
 import { listBrands, updateBrandStatus } from '@/api/admin-v2'
 import { ElMessage } from 'element-plus'
 
-const brands = ref([])
+const brands = ref([]), total = ref(0)
 onMounted(load)
-async function load() { try { brands.value = await listBrands() || [] } catch (_) {} }
+async function load() { try { const res = await listBrands(); brands.value = res?.list || []; total.value = res?.total || 0 } catch (_) {} }
 async function audit(brandId, status) { try { await updateBrandStatus(brandId, { status }); ElMessage.success('OK'); load() } catch (_) {} }
 </script>

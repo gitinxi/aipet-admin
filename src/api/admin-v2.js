@@ -8,6 +8,7 @@ export const toggleSpuStatus = (spuId) => request.put('/admin/mall/spus/' + spuI
 export const listSkus = (spuId) => request.get('/admin/mall/spus/' + spuId + '/skus')
 export const createSku = (spuId, data) => request.post('/admin/mall/spus/' + spuId + '/skus', data)
 export const updateSku = (spuId, skuId, data) => request.put('/admin/mall/spus/' + spuId + '/skus/' + skuId, data)
+export const deleteSku = (spuId, skuId) => request.delete('/admin/mall/spus/' + spuId + '/skus/' + skuId)
 
 // 订单管理
 export const adminOrders = (params) => request.get('/admin/mall/orders', { params })
