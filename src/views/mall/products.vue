@@ -26,7 +26,7 @@
         <el-form-item label="名称"><el-input v-model="form.name" /></el-form-item>
         <el-form-item label="类目ID"><el-input v-model="form.catId" /></el-form-item>
         <el-form-item label="品牌ID"><el-input v-model="form.brandId" /></el-form-item>
-        <el-form-item label="封面图"><el-input v-model="form.coverImage" /></el-form-item>
+        <el-form-item label="封面图"><el-input v-model="form.mainImage" /></el-form-item>
         <el-form-item label="描述"><el-input type="textarea" v-model="form.description" /></el-form-item>
       </el-form>
       <template #footer><el-button @click="visible=false">取消</el-button><el-button type="primary" @click="onSave">保存</el-button></template>
@@ -40,17 +40,17 @@ import { listSpus, createSpu, updateSpu, toggleSpuStatus } from '@/api/admin-v2'
 import { ElMessage } from 'element-plus'
 
 const spus = ref([]), visible = ref(false), isEdit = ref(false)
-const form = reactive({ name: '', catId: '', brandId: '', coverImage: '', description: '' })
+const form = reactive({ name: '', catId: '', brandId: '', mainImage: '', description: '' })
 let eid = ''
 
 onMounted(load)
 async function load() { try { spus.value = await listSpus() || [] } catch (_) {} }
 
 function openAdd() {
-  isEdit.value = false; Object.assign(form, { name: '', catId: '', brandId: '', coverImage: '', description: '' }); visible.value = true
+  isEdit.value = false; Object.assign(form, { name: '', catId: '', brandId: '', mainImage: '', description: '' }); visible.value = true
 }
 function openEdit(row) {
-  isEdit.value = true; eid = row.spuId; Object.assign(form, { name: row.name, catId: row.catId || '', brandId: row.brandId || '', coverImage: row.coverImage || '', description: row.description || '' }); visible.value = true
+  isEdit.value = true; eid = row.spuId; Object.assign(form, { name: row.name, catId: row.catId || '', brandId: row.brandId || '', mainImage: row.mainImage || '', description: row.description || '' }); visible.value = true
 }
 async function onSave() {
   try {

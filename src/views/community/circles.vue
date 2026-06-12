@@ -18,7 +18,7 @@
         <el-form-item label="名称" required><el-input v-model="form.name" /></el-form-item>
         <el-form-item label="品种名" required><el-input v-model="form.breedName" placeholder="如：金毛、柯基、布偶猫" /></el-form-item>
         <el-form-item label="描述"><el-input type="textarea" v-model="form.description" /></el-form-item>
-        <el-form-item label="头像URL"><el-input v-model="form.avatarUrl" /></el-form-item>
+        <el-form-item label="头像URL"><el-input v-model="form.iconUrl" /></el-form-item>
       </el-form>
       <template #footer><el-button @click="visible=false">取消</el-button><el-button type="primary" @click="onSave">保存</el-button></template>
     </el-dialog>
@@ -31,13 +31,13 @@ import { adminCircles, createCircle, updateCircle } from '@/api/admin-v2'
 import { ElMessage } from 'element-plus'
 
 const circles = ref([]), visible = ref(false), isEdit = ref(false)
-const form = reactive({ name: '', breedName: '', description: '', avatarUrl: '' })
+const form = reactive({ name: '', breedName: '', description: '', iconUrl: '', coverUrl: '' })
 let eid = ''
 
 onMounted(load)
 async function load() { try { circles.value = await adminCircles() || [] } catch (_) {} }
-function openAdd() { isEdit.value = false; Object.assign(form, { name: '', breedName: '', description: '', avatarUrl: '' }); visible.value = true }
-function openEdit(row) { isEdit.value = true; eid = row.circleId; Object.assign(form, { name: row.name, breedName: row.breedName || '', description: row.description || '', avatarUrl: row.avatarUrl || '' }); visible.value = true }
+function openAdd() { isEdit.value = false; Object.assign(form, { name: '', breedName: '', description: '', iconUrl: '', coverUrl: '' }); visible.value = true }
+function openEdit(row) { isEdit.value = true; eid = row.circleId; Object.assign(form, { name: row.name, breedName: row.breedName || '', description: row.description || '', iconUrl: row.iconUrl || '', coverUrl: row.coverUrl || '' }); visible.value = true }
 async function onSave() { try { isEdit.value ? await updateCircle(eid, form) : await createCircle(form); ElMessage.success('OK'); visible.value = false; load() } catch (_) {} }
 </script>
 <style scoped>.card-head { display: flex; justify-content: space-between; align-items: center }</style>

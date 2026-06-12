@@ -1,44 +1,44 @@
 import request from './request'
 
 // 商品管理
-export const listSpus = (params) => request('/admin/mall/spus', 'GET', params)
-export const createSpu = (data) => request('/admin/mall/spus', 'POST', data)
-export const updateSpu = (spuId, data) => request('/admin/mall/spus/' + spuId, 'PUT', data)
-export const toggleSpuStatus = (spuId) => request('/admin/mall/spus/' + spuId + '/status', 'PUT')
-export const listSkus = (spuId) => request('/admin/mall/spus/' + spuId + '/skus', 'GET')
-export const createSku = (spuId, data) => request('/admin/mall/spus/' + spuId + '/skus', 'POST', data)
-export const updateSku = (spuId, skuId, data) => request('/admin/mall/spus/' + spuId + '/skus/' + skuId, 'PUT', data)
+export const listSpus = (params) => request.get('/admin/mall/spus', { params })
+export const createSpu = (data) => request.post('/admin/mall/spus', data)
+export const updateSpu = (spuId, data) => request.put('/admin/mall/spus/' + spuId, data)
+export const toggleSpuStatus = (spuId) => request.put('/admin/mall/spus/' + spuId + '/status')
+export const listSkus = (spuId) => request.get('/admin/mall/spus/' + spuId + '/skus')
+export const createSku = (spuId, data) => request.post('/admin/mall/spus/' + spuId + '/skus', data)
+export const updateSku = (spuId, skuId, data) => request.put('/admin/mall/spus/' + spuId + '/skus/' + skuId, data)
 
 // 订单管理
-export const adminOrders = (params) => request('/admin/mall/orders', 'GET', params)
-export const adminOrderDetail = (orderId) => request('/admin/mall/orders/' + orderId, 'GET')
-export const handleRefund = (orderId, data) => request('/admin/mall/orders/' + orderId + '/refund', 'POST', data)
+export const adminOrders = (params) => request.get('/admin/mall/orders', { params })
+export const adminOrderDetail = (orderId) => request.get('/admin/mall/orders/' + orderId)
+export const handleRefund = (orderId, data) => request.post('/admin/mall/orders/' + orderId + '/refund', data)
 
 // 优惠券管理
-export const listTemplates = () => request('/admin/mall/coupons/templates', 'GET')
-export const createTemplate = (data) => request('/admin/mall/coupons/templates', 'POST', data)
-export const updateTemplate = (templateId, data) => request('/admin/mall/coupons/templates/' + templateId, 'PUT', data)
+export const listTemplates = () => request.get('/admin/mall/coupons/templates')
+export const createTemplate = (data) => request.post('/admin/mall/coupons/templates', data)
+export const updateTemplate = (templateId, data) => request.put('/admin/mall/coupons/templates/' + templateId, data)
 
 // 品牌管理
-export const listBrands = (params) => request('/admin/mall/brands', 'GET', params)
-export const updateBrandStatus = (brandId, data) => request('/admin/mall/brands/' + brandId + '/status', 'PUT', data)
+export const listBrands = (params) => request.get('/admin/mall/brands', { params })
+export const updateBrandStatus = (brandId, data) => request.put('/admin/mall/brands/' + brandId + '/status', data)
 
 // 内容审核
-export const auditPosts = (params) => request('/admin/community/posts/audit', 'GET', params)
-export const auditPost = (postId, data) => request('/admin/community/posts/' + postId + '/audit', 'POST', data)
+export const auditPosts = (params) => request.get('/admin/community/posts/audit', { params })
+export const auditPost = (postId, data) => request.post('/admin/community/posts/' + postId + '/audit', data)
 
 // 圈子管理
-export const adminCircles = () => request('/admin/community/circles', 'GET')
-export const createCircle = (data) => request('/admin/community/circles', 'POST', data)
-export const updateCircle = (circleId, data) => request('/admin/community/circles/' + circleId, 'PUT', data)
+export const adminCircles = () => request.get('/admin/community/circles')
+export const createCircle = (data) => request.post('/admin/community/circles', data)
+export const updateCircle = (circleId, data) => request.put('/admin/community/circles/' + circleId, data)
 
 // 服务商管理
-export const adminProviders = (params) => request('/admin/o2o/providers', 'GET', params)
-export const auditProvider = (providerId, data) => request('/admin/o2o/providers/' + providerId + '/audit', 'POST', data)
+export const adminProviders = (params) => request.get('/admin/o2o/providers', { params })
+export const auditProvider = (providerId, data) => request.post('/admin/o2o/providers/' + providerId + '/audit', data)
 
 // O2O预约管理
-export const adminBookings = (params) => request('/admin/o2o/bookings', 'GET', params)
+export const adminBookings = (params) => request.get('/admin/o2o/bookings', { params })
 
 // 举报管理
-export const adminReports = (params) => request('/admin/community/reports', 'GET', params)
-export const handleReport = (reportId, data) => request('/admin/community/reports/' + reportId + '/handle', 'POST', data)
+export const adminReports = (params) => request.get('/admin/community/reports', { params })
+export const handleReport = (reportId, data) => request.post('/admin/community/reports/' + reportId + '/handle', data)
