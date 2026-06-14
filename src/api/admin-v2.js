@@ -14,11 +14,13 @@ export const deleteSku = (spuId, skuId) => request.delete('/admin/mall/spus/' + 
 export const adminOrders = (params) => request.get('/admin/mall/orders', { params })
 export const adminOrderDetail = (orderId) => request.get('/admin/mall/orders/' + orderId)
 export const handleRefund = (orderId, data) => request.post('/admin/mall/orders/' + orderId + '/refund', data)
+export const shipOrder = (orderId, data) => request.post('/admin/mall/orders/' + orderId + '/ship', data)
 
 // 优惠券管理
 export const listTemplates = () => request.get('/admin/mall/coupons/templates')
 export const createTemplate = (data) => request.post('/admin/mall/coupons/templates', data)
 export const updateTemplate = (templateId, data) => request.put('/admin/mall/coupons/templates/' + templateId, data)
+export const deleteTemplate = (templateId) => request.delete('/admin/mall/coupons/templates/' + templateId)
 
 // 品牌管理
 export const listBrands = (params) => request.get('/admin/mall/brands', { params })
@@ -32,6 +34,7 @@ export const auditPost = (postId, data) => request.post('/admin/community/posts/
 export const adminCircles = () => request.get('/admin/community/circles')
 export const createCircle = (data) => request.post('/admin/community/circles', data)
 export const updateCircle = (circleId, data) => request.put('/admin/community/circles/' + circleId, data)
+export const deleteCircle = (circleId) => request.delete('/admin/community/circles/' + circleId)
 
 // 服务商管理
 export const adminProviders = (params) => request.get('/admin/o2o/providers', { params })

@@ -44,9 +44,9 @@ const tab = ref('posts'), adoptions = ref([]), reports = ref([])
 
 onMounted(async () => {
   try { adoptions.value = [] } catch (_) {} // 待后端admin adoption API
-  try { const res = await adminReports(); reports.value = res?.list || [] } catch (_) {}
+  try { const res = await adminReports({ page: 1, pageSize: 20 }); reports.value = res?.list || [] } catch (_) {}
 })
 
-async function handleRpt(reportId, status) { try { await handleReport(reportId, { status }); const res = await adminReports(); reports.value = res?.list || []; ElMessage.success('OK') } catch (_) {} }
+async function handleRpt(reportId, status) { try { await handleReport(reportId, { status }); const res = await adminReports({ page: 1, pageSize: 20 }); reports.value = res?.list || []; ElMessage.success('OK') } catch (_) {} }
 function viewAdoption(row) { ElMessage.info('详情: ' + row.adoptionId) }
 </script>

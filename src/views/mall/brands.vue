@@ -25,6 +25,6 @@ import { ElMessage } from 'element-plus'
 
 const brands = ref([]), total = ref(0)
 onMounted(load)
-async function load() { try { const res = await listBrands(); brands.value = res?.list || []; total.value = res?.total || 0 } catch (_) {} }
+async function load() { try { const res = await listBrands({ page: 1, pageSize: 100 }); brands.value = res?.list || []; total.value = res?.total || 0 } catch (_) {} }
 async function audit(brandId, status) { try { await updateBrandStatus(brandId, { status }); ElMessage.success('OK'); load() } catch (_) {} }
 </script>

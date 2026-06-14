@@ -21,7 +21,7 @@ import{ref,reactive,onMounted}from'vue';import{listBatches,getBatch,generateCode
 const batches=ref([]),plans=ref([]),genVisible=ref(false)
 const genForm=reactive({planId:'',count:100,planDays:30})
 onMounted(async()=>{try{batches.value=await listBatches()}catch(_){};try{plans.value=await listPlans()}catch(_){}})
-async function viewBatch(id){try{const codes=await getBatch(id)||[];const activated=codes.filter(c=>c.status==='ACTIVATED').length;ElMessage.info('批次'+id+' 共'+codes.length+'个码，已激活'+activated)}catch(_){}}
+async function viewBatch(id){try{const codes=await getBatch(id)||[];const activated=codes.filter(c=>c.status==='ACTIVATED').length;const available=codes.filter(c=>c.status==='AVAILABLE').length;ElMessage.info('批次'+id+'：共'+codes.length+'个码，可用'+available+'，已激活'+activated)}catch(_){}}
 async function onGenerate(){try{await generateCodes({planId:genForm.planId,count:genForm.count,planDays:genForm.planDays});ElMessage.success('生成成功');genVisible.value=false;batches.value=await listBatches()}catch(_){}}
 </script>
 <style scoped>.card-head{display:flex;justify-content:space-between;align-items:center}</style>

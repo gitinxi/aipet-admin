@@ -71,7 +71,7 @@ http.interceptors.response.use(
       localStorage.removeItem('admin_id')
       localStorage.removeItem('admin_username')
       localStorage.removeItem('admin_realname')
-      window.location.href = '/login'
+      window.location.href = '/admin/login'
       pendingRequests = []
       isRefreshing = false
       return Promise.reject(err)

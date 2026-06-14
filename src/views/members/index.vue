@@ -20,12 +20,12 @@
   </div>
 </template>
 <script setup>
-import{ref,reactive,onMounted}from'vue';import{listPlans,createPlan,updatePlan}from'@/api/members';import{ElMessage}from'element-plus'
+import{ref,reactive,onMounted}from'vue';import{listAllPlans,createPlan,updatePlan}from'@/api/members';import{ElMessage}from'element-plus'
 const plans=ref([]),visible=ref(false),isEdit=ref(false)
 const form=reactive({planId:'',planName:'',priceCent:990,durationDays:30,sortOrder:99,enabled:1});let eid=''
-onMounted(async()=>{try{plans.value=await listPlans()}catch(_){}})
+onMounted(async()=>{try{plans.value=await listAllPlans()}catch(_){}})
 function openAdd(){isEdit.value=false;Object.assign(form,{planId:'',planName:'',priceCent:990,durationDays:30,sortOrder:99,enabled:1});visible.value=true}
 function openEdit(row){isEdit.value=true;eid=row.planId;Object.assign(form,{planId:row.planId,planName:row.planName,priceCent:row.priceCent,durationDays:row.durationDays,sortOrder:row.sortOrder||99,enabled:row.enabled});visible.value=true}
-async function onSave(){try{const d={planName:form.planName,priceCent:form.priceCent,durationDays:form.durationDays,sortOrder:form.sortOrder,enabled:form.enabled?1:0};if(isEdit.value)await updatePlan(eid,d);else await createPlan({...d,planId:form.planId});ElMessage.success('OK');visible.value=false;plans.value=await listPlans()}catch(_){}}
+async function onSave(){try{const d={planName:form.planName,priceCent:form.priceCent,durationDays:form.durationDays,sortOrder:form.sortOrder,enabled:form.enabled?1:0};if(isEdit.value)await updatePlan(eid,d);else await createPlan({...d,planId:form.planId});ElMessage.success('OK');visible.value=false;plans.value=await listAllPlans()}catch(_){}}
 </script>
 <style scoped>.card-head{display:flex;justify-content:space-between;align-items:center}</style>

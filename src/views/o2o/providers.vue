@@ -26,6 +26,6 @@ import { ElMessage } from 'element-plus'
 
 const providers = ref([])
 onMounted(load)
-async function load() { try { providers.value = await adminProviders() || [] } catch (_) {} }
+async function load() { try { providers.value = await adminProviders({ page: 1, pageSize: 100 }) || [] } catch (_) {} }
 async function audit(providerId, status) { try { await auditProvider(providerId, { status }); ElMessage.success('OK'); load() } catch (_) {} }
 </script>

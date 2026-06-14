@@ -7,3 +7,4 @@ export const updatePassword = (id, data) => http.put('/admin/users/' + id + '/pa
 export const listRoles = () => http.get('/admin/roles')
 export const createRole = (data) => http.post('/admin/roles', data)
 export const updateRole = (code, data) => http.put('/admin/roles/' + code, data)
+export const deleteRole = (code) => http.delete('/admin/roles/' + code)

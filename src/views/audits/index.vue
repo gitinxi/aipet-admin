@@ -24,6 +24,6 @@
 <script setup>
 import{ref,onMounted}from'vue';import{listAuditLogs,listSecurityEvents,resolveEvent}from'@/api/audits';import{ElMessage}from'element-plus'
 const tab=ref('logs'),logs=ref([]),events=ref([])
-onMounted(async()=>{try{const r=await listAuditLogs();logs.value=r.list||r||[]}catch(_){};try{const r=await listSecurityEvents();events.value=r.list||r||[]}catch(_){}})
-async function resolve(id){try{await resolveEvent(id,{note:'已处理'});ElMessage.success('已处理');events.value=await listSecurityEvents()}catch(_){}}
+onMounted(async()=>{try{const r=await listAuditLogs({page:1,pageSize:20});logs.value=r.list||r||[]}catch(_){};try{const r=await listSecurityEvents({page:1,pageSize:20});events.value=r.list||r||[]}catch(_){}})
+async function resolve(id){try{await resolveEvent(id,{note:'已处理'});ElMessage.success('已处理');const r=await listSecurityEvents({page:1,pageSize:20});events.value=r.list||r||[]}catch(_){}}
 </script>
